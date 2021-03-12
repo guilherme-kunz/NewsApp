@@ -1,7 +1,6 @@
 package guilhermekunz.com.br.newsapp.adapters
 
 import android.view.LayoutInflater
-import android.view.OrientationEventListener
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -12,9 +11,7 @@ import guilhermekunz.com.br.newsapp.R
 import guilhermekunz.com.br.newsapp.models.Article
 import kotlinx.android.synthetic.main.item_article_preview.view.*
 
-class NewsAdapter(
-        list: List<Article>
-) : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
+class NewsAdapter() : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
 
 
     inner class ArticleViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
