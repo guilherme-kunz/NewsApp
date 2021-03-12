@@ -2,7 +2,7 @@ package guilhermekunz.com.br.newsapp.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import guilhermekunz.com.br.newsapp.Article
+import guilhermekunz.com.br.newsapp.models.Article
 
 @Dao
 interface ArticleDao {
