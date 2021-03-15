@@ -11,9 +11,9 @@ interface NewsApi {
     //Noticias de ultima hora -- Breaking News
     @GET("v2/top-headlines")
     suspend fun getBreakingNews(
-            //Define o pais das de ultima hora
+            //Define o pais das noticias de ultima hora
             @Query("country")
-            countryCode: String = "us",
+            countryCode: String = "br",
             //Define a quantidade de artigos(20)
             @Query("page")
             pageNumber: Int = 1,

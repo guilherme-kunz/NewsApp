@@ -11,7 +11,7 @@ interface ArticleDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(article: Article): Long
 
-    //Retorna todos os artigos da pesquisa
+    //Retorna todos os artigos do banco de dados
     @Query("SELECT * FROM articles")
     fun getAllArticles(): LiveData<List<Article>>
 

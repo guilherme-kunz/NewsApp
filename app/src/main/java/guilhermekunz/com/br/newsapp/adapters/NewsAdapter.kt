@@ -13,9 +13,10 @@ import kotlinx.android.synthetic.main.item_article_preview.view.*
 
 class NewsAdapter() : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
 
-
+    //Mantem sempre a lista atualizada
     inner class ArticleViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
+    //Calcula a diferença entre duas listas
     private val differCallback = object : DiffUtil.ItemCallback<Article>() {
 
         override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
@@ -56,6 +57,7 @@ class NewsAdapter() : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
         }
     }
 
+    //Abre o artigo
     private var onItemClickListener: ((Article) -> Unit)? = null
 
     fun setOnItemClickListener(listener: (Article) -> Unit) {
