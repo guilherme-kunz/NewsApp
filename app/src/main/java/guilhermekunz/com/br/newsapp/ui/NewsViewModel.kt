@@ -3,6 +3,7 @@ package guilhermekunz.com.br.newsapp.ui
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import guilhermekunz.com.br.newsapp.models.Article
 import guilhermekunz.com.br.newsapp.models.NewsResponse
 import guilhermekunz.com.br.newsapp.repository.NewsRepository
 import guilhermekunz.com.br.newsapp.util.Resource
@@ -10,7 +11,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 
 class NewsViewModel(
-     val newsRepository: NewsRepository
+        private val newsRepository: NewsRepository
 ) : ViewModel() {
 
     //Live Data Objects
@@ -22,11 +23,11 @@ class NewsViewModel(
 
     //Solicita a rede
     init {
-        getBreakingNews("br")
+        getBreakingNews("us")
     }
 
 
-    fun getBreakingNews(countryCode: String) = viewModelScope.launch {
+    private fun getBreakingNews(countryCode: String) = viewModelScope.launch {
         breakingNews.postValue(Resource.Loading())
         // A resposta de rede é salva no response
         val response = newsRepository.getBreakingNews(countryCode, breakingNewsPage)
@@ -40,7 +41,7 @@ class NewsViewModel(
     }
 
     //define se queremos omitir o estado de sucesso ou de erro das breaking news
-    private fun handleBreakingNewsResponse(response: Response<NewsResponse>) : Resource<NewsResponse> {
+    private fun handleBreakingNewsResponse(response: Response<NewsResponse>): Resource<NewsResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 return Resource.Success(resultResponse)
@@ -50,12 +51,22 @@ class NewsViewModel(
     }
 
     //define se queremos omitir o estado de sucesso ou de erro do searchnews
-    private fun handleSearchNewsResponse(response: Response<NewsResponse>) : Resource<NewsResponse> {
+    private fun handleSearchNewsResponse(response: Response<NewsResponse>): Resource<NewsResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 return Resource.Success(resultResponse)
             }
         }
         return Resource.Error(response.message())
+    }
+
+    fun saveArticle(article: Article) = viewModelScope.launch {
+        newsRepository.upsert(article)
+    }
+
+    fun getSavedNews() = newsRepository.getSavedNews()
+
+    fun deleteArticle(article: Article) = viewModelScope.launch {
+        newsRepository.deleteArticle(article)
     }
 }

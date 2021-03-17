@@ -24,7 +24,7 @@ class RetrofitInstance {
         }
 
         // instancia do retrofit
-        val api by lazy {
+        val api: NewsApi by lazy {
             retrofit.create(NewsApi::class.java)
         }
     }

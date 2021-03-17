@@ -19,7 +19,7 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
     lateinit var viewModel: NewsViewModel
     lateinit var newsAdapter: NewsAdapter
 
-    val TAG = "BreakingNewsFragment"
+    private val TAG = "BreakingNewsFragment"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,13 +33,13 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
             }
             //transição de fragment
             findNavController().navigate(
-                 R.id.action_breakingNewsFragment_to_articleFragment,
-                 bundle
+                    R.id.action_breakingNewsFragment_to_articleFragment,
+                    bundle
             )
         }
 
         viewModel.breakingNews.observe(viewLifecycleOwner, Observer { response ->
-            when(response) {
+            when (response) {
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let { newsResponse ->

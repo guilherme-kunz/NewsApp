@@ -13,7 +13,7 @@ interface NewsApi {
     suspend fun getBreakingNews(
             //Define o pais das noticias de ultima hora
             @Query("country")
-            countryCode: String = "br",
+            countryCode: String = "us",
             //Define a quantidade de artigos(20)
             @Query("page")
             pageNumber: Int = 1,

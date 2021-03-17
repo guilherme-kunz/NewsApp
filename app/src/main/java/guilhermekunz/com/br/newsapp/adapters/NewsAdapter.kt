@@ -11,14 +11,13 @@ import guilhermekunz.com.br.newsapp.R
 import guilhermekunz.com.br.newsapp.models.Article
 import kotlinx.android.synthetic.main.item_article_preview.view.*
 
-class NewsAdapter() : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
+class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
 
     //Mantem sempre a lista atualizada
-    inner class ArticleViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+    inner class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     //Calcula a diferença entre duas listas
     private val differCallback = object : DiffUtil.ItemCallback<Article>() {
-
         override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
             return oldItem.url == newItem.url
         }
@@ -27,21 +26,25 @@ class NewsAdapter() : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
             return oldItem == newItem
         }
     }
+
     val differ = AsyncListDiffer(this, differCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
         return ArticleViewHolder(
-             LayoutInflater.from(parent.context).inflate(
-                R.layout.item_article_preview,
-                     parent,
-                     false
-             )
+                LayoutInflater.from(parent.context).inflate(
+                        R.layout.item_article_preview,
+                        parent,
+                        false
+                )
         )
     }
 
     override fun getItemCount(): Int {
         return differ.currentList.size
     }
+
+    //Abre o artigo
+    private var onItemClickListener: ((Article) -> Unit)? = null
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         val article = differ.currentList[position]
@@ -51,14 +54,12 @@ class NewsAdapter() : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
             tvTitle.text = article.title
             tvDescription.text = article.description
             tvPublishedAt.text = article.publishedAt
+
             setOnClickListener {
                 onItemClickListener?.let { it(article) }
             }
         }
     }
-
-    //Abre o artigo
-    private var onItemClickListener: ((Article) -> Unit)? = null
 
     fun setOnItemClickListener(listener: (Article) -> Unit) {
         onItemClickListener = listener
