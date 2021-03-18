@@ -6,7 +6,7 @@
 
 ## Sobre este projeto
 
-NewsApp é um aplicativo de noticias. Nele você pode ler as breaking news americanas, salvar as noticias do seu interesse e pesquisar sobre noticias do seu interesse.
+NewsApp é um aplicativo de notícias. Nele você pode ler as Breaking News americanas, salvar as notícias do seu interesse e pesquisar sobre notícias do seu interesse.
 
 O intuito do aplicativo é colocar em prática os aprendizados obtidos durante os três meses de estudo de Android fornecidos pela plataforma [Alura](https://www.alura.com.br/), durante o perido de estágio da [Compasso UOL](https://compassouol.com/)
 
