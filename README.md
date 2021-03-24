@@ -24,6 +24,7 @@ O aplicativo foi desenvolvido utilizando a arquitetura [MVVM](https://developer.
 <li><a href="https://www.youtube.com/watch?v=Ag9paBWHU2I">WebView</a> - para a implementação do WebView</li>
 <li><a href="https://www.youtube.com/watch?v=sJ-Z9G0SDhc">SearhView</a> - para a implementação do Search</li>
 <li><a href="https://www.youtube.com/watch?v=eEonjkmox-0">Swipe to delete</a> - para a implementação do Swipe Delete</li>
+  <li><a href="https://medium.com/swlh/paging3-recyclerview-pagination-made-easy-333c7dfa8797">Paging</a> - para a implementação do Pagination</li>
 </ul>
 
 ## Bibliotecas utilizadas 
