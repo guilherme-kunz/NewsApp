@@ -8,7 +8,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import guilhermekunz.com.br.newsapp.R
 import guilhermekunz.com.br.newsapp.ui.MainActivity
-import guilhermekunz.com.br.newsapp.ui.NewsViewModel
+import guilhermekunz.com.br.newsapp.ui.viewmodel.NewsViewModel
 import kotlinx.android.synthetic.main.fragment_article.*
 
 class ArticleFragment : Fragment(R.layout.fragment_article) {
@@ -27,6 +27,7 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
             loadUrl(article.url)
         }
 
+        //botão para salvar o artigo
         fab.setOnClickListener {
             viewModel.saveArticle(article)
             Snackbar.make(view, "Article saved successfully", Snackbar.LENGTH_SHORT).show()

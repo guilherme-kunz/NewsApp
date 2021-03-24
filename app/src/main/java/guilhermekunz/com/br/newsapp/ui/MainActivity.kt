@@ -8,6 +8,8 @@ import androidx.navigation.ui.setupWithNavController
 import guilhermekunz.com.br.newsapp.R
 import guilhermekunz.com.br.newsapp.database.ArticleDatabase
 import guilhermekunz.com.br.newsapp.repository.NewsRepository
+import guilhermekunz.com.br.newsapp.ui.viewmodel.NewsViewModel
+import guilhermekunz.com.br.newsapp.ui.viewmodel.NewsViewModelProviderFactory
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -22,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         //Instancia o Repositorio
         val newsRepository = NewsRepository(ArticleDatabase(this))
         //Instancia o Factory
-        val viewModelProviderFactory = NewsViewModelProviderFactory(newsRepository)
+        val viewModelProviderFactory = NewsViewModelProviderFactory(application, newsRepository)
         //Instancia o ViewModel
         viewModel = ViewModelProvider(this, viewModelProviderFactory).get(NewsViewModel::class.java)
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AbsListView
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -13,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import guilhermekunz.com.br.newsapp.R
 import guilhermekunz.com.br.newsapp.adapters.NewsAdapter
 import guilhermekunz.com.br.newsapp.ui.MainActivity
-import guilhermekunz.com.br.newsapp.ui.NewsViewModel
+import guilhermekunz.com.br.newsapp.ui.viewmodel.NewsViewModel
 import guilhermekunz.com.br.newsapp.util.Constants
 import guilhermekunz.com.br.newsapp.util.Constants.Companion.SEARCH_NEWS_TIME_DELAY
 import guilhermekunz.com.br.newsapp.util.Resource
@@ -80,7 +81,7 @@ class SearchNewsFragment : Fragment(R.layout.fragment_search_news) {
                 is Resource.Error -> {
                     hideProgressBar()
                     response.message?.let { message ->
-                        Log.e(TAG, "Ocorreu um erro: $message")
+                        Toast.makeText(activity, "An error has occurred: $message", Toast.LENGTH_SHORT).show()
                     }
                 }
                 is Resource.Loading -> {
