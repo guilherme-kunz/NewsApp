@@ -1,6 +1,6 @@
 # NewsApp
 
-## WIP
+## Work in Progress
 
 ## Sobre este projeto
 
