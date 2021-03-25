@@ -1,8 +1,6 @@
 # NewsApp
 
-![print 1](https://user-images.githubusercontent.com/54754638/111683518-5b6c4100-8804-11eb-85c7-59a565bece3f.png)
-![print 2](https://user-images.githubusercontent.com/54754638/111683519-5c9d6e00-8804-11eb-9da9-e751fe93f142.png)
-![print 3](https://user-images.githubusercontent.com/54754638/111683523-5d360480-8804-11eb-97cb-074fec8ad15c.png)
+## WIP
 
 ## Sobre este projeto
 
