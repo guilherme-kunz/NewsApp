@@ -142,7 +142,6 @@ class NewsViewModel(
                 Context.CONNECTIVITY_SERVICE
         ) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // tem internet
             val activityNetwork = connectivityManager.activeNetwork ?: return false
             //verifica o estado de rede
             val capabilities = connectivityManager.getNetworkCapabilities(activityNetwork) ?: return false
