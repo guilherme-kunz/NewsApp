@@ -4,21 +4,18 @@ import android.app.Activity
 import android.content.Intent
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import de.hdodenhof.circleimageview.CircleImageView
 import guilhermekunz.com.br.newsapp.R
 import guilhermekunz.com.br.newsapp.database.ArticleDatabase
 import guilhermekunz.com.br.newsapp.repository.NewsRepository
@@ -40,7 +37,6 @@ class MainActivity : AppCompatActivity() {
     val TAKE_PICTURE = 1
     val SELECT_PICTURE = 2
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -63,34 +59,21 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         navView.setNavigationItemSelectedListener {
-            when(it.itemId) {
-                R.id.Item1 -> dispatchCameraIntent()
-                R.id.Item2 -> dispatchGalleryIntent()
-                R.id.Item3 -> Toast.makeText(applicationContext,
-                        "Clicked Item 3", Toast.LENGTH_SHORT).show()
+            when (it.itemId) {
+                R.id.Item1 -> accessCameraIntent()
+                R.id.Item2 -> accessGalleryIntent()
+                R.id.maps -> Toast.makeText(applicationContext, "Clicked", Toast.LENGTH_SHORT).show()
             }
             true
         }
     }
 
-//    private fun selectImage() {
-//        val items = arrayOf<CharSequence>("Take Photo", "Choose from Gallery", "Cancel")
-//        val builder = AlertDialog.Builder(this@MainActivity)
-//        builder.setItems(items) { dialog, item ->
-//            when {
-//                items[item] == "Take Photo" -> {
-//                    requestStoragePermission(true)
-//                }
-//                items[item] == "Choose from Library" -> {
-//                    requestStoragePermission(false)
-//                }
-//                items[item] == "Cancel" -> {
-//                    dialog.dismiss()
-//                }
-//            }
-//        }
-//        builder.show()
-//    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (toggle.onOptionsItemSelected(item)) {
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     // recebe a foto
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -115,34 +98,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     //abre a galeria
-    private fun dispatchGalleryIntent(){
+    private fun accessGalleryIntent() {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(Intent.createChooser(intent, "Select image"), SELECT_PICTURE)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (toggle.onOptionsItemSelected(item)) {
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
 
     //abre a camera
-    @RequiresApi(Build.VERSION_CODES.N)
-    fun dispatchCameraIntent() {
+    private fun accessCameraIntent() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         if (intent.resolveActivity(packageManager) != null) {
             var photoFile: File? = null
             try {
                 photoFile = createImage()
-            }catch (e: IOException){
+            } catch (e: IOException) {
                 e.printStackTrace()
             }
             if (photoFile != null) {
-                var photoUri = FileProvider.getUriForFile(this,
-                        "guilhermekunz.com.br.newsapp.fileprovider", photoFile)
+                var photoUri = FileProvider.getUriForFile(
+                    this,
+                    "guilhermekunz.com.br.newsapp.fileprovider", photoFile
+                )
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
                 startActivityForResult(intent, TAKE_PICTURE)
             }
@@ -150,13 +128,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     //cria a imagem
-    @RequiresApi(Build.VERSION_CODES.N)
-    fun createImage(): File{
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val imageName = "JPEG_"+timeStamp+"_"
+    private fun createImage(): File {
+        val timeStamp = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        } else {
+            TODO("VERSION.SDK_INT < N")
+        }
+        val imageName = "JPEG_" + timeStamp + "_"
         var storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         var image = File.createTempFile(imageName, ".jpg", storageDir)
         currentPath = image.absolutePath
         return image
     }
+
 }
