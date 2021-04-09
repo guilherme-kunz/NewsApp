@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import guilhermekunz.com.br.newsapp.R
 import guilhermekunz.com.br.newsapp.adapters.NewsAdapter
-import guilhermekunz.com.br.newsapp.ui.MainActivity
+import guilhermekunz.com.br.newsapp.ui.activities.MainActivity
 import guilhermekunz.com.br.newsapp.ui.viewmodel.NewsViewModel
 import kotlinx.android.synthetic.main.fragment_saved_news.*
 

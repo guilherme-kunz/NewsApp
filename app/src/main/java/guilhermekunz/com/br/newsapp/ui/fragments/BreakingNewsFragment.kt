@@ -1,7 +1,6 @@
 package guilhermekunz.com.br.newsapp.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AbsListView
 import android.widget.Toast
@@ -12,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import guilhermekunz.com.br.newsapp.R
 import guilhermekunz.com.br.newsapp.adapters.NewsAdapter
-import guilhermekunz.com.br.newsapp.ui.MainActivity
+import guilhermekunz.com.br.newsapp.ui.activities.MainActivity
 import guilhermekunz.com.br.newsapp.ui.viewmodel.NewsViewModel
 import guilhermekunz.com.br.newsapp.util.Constants.Companion.QUERY_PAGE_SIZE
 import guilhermekunz.com.br.newsapp.util.Resource

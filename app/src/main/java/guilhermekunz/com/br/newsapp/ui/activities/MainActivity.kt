@@ -1,4 +1,4 @@
-package guilhermekunz.com.br.newsapp.ui
+package guilhermekunz.com.br.newsapp.ui.activities
 
 import android.app.Activity
 import android.content.Intent
@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -62,7 +61,10 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.Item1 -> accessCameraIntent()
                 R.id.Item2 -> accessGalleryIntent()
-                R.id.maps -> Toast.makeText(applicationContext, "Clicked", Toast.LENGTH_SHORT).show()
+                R.id.maps -> {
+                    val intent = Intent(this, MapsActivity::class.java)
+                    startActivity(intent)
+                }
             }
             true
         }
