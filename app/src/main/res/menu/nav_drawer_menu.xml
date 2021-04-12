@@ -2,12 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/Item1"
-        android:title="Camera" />
+        android:id="@+id/Camera"
+        android:title="Camera"
+        android:icon="@drawable/ic_camera"/>
 
     <item
-        android:id="@+id/Item2"
-        android:title="Gallery" />
+        android:id="@+id/Gallery"
+        android:title="Gallery"
+        android:icon="@drawable/ic_gallery"/>
 
     <item
         android:id="@+id/maps"
