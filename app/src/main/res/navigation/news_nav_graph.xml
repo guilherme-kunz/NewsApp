@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/news_nav_graph"
-    app:startDestination="@id/breakingNewsFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/breakingNewsFragment"
@@ -47,4 +47,12 @@
             android:name="article"
             app:argType="guilhermekunz.com.br.newsapp.models.Article" />
     </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="guilhermekunz.com.br.newsapp.ui.fragments.RegisterFragment"
+        android:label="RegisterFragment" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="guilhermekunz.com.br.newsapp.ui.fragments.LoginFragment"
+        android:label="LoginFragment" />
 </navigation>

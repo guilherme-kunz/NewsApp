@@ -7,13 +7,16 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import guilhermekunz.com.br.newsapp.R
 import guilhermekunz.com.br.newsapp.database.ArticleDatabase
 import guilhermekunz.com.br.newsapp.repository.NewsRepository
@@ -39,6 +42,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        finish()
+        startActivity(Intent(this, AuthActivity::class.java))
+
+        setupBottomNav()
 
 
         //Instancia o Repositorio
@@ -68,6 +76,30 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+    }
+
+    private fun setupBottomNav() {
+        val navController = findNavController(R.id.newsNavHostFragment)
+        findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+            .setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener{_, destination, _ ->
+            when(destination.id) {
+                R.id.articleFragment -> showBottomNav()
+                R.id.breakingNewsFragment -> showBottomNav()
+                R.id.savedNewsFragment -> showBottomNav()
+                R.id.searchNewsFragment -> showBottomNav()
+                else -> hideBottomNav()
+            }
+        }
+    }
+
+    private fun showBottomNav() {
+        bottomNavigationView.visibility = View.VISIBLE
+    }
+
+    private fun hideBottomNav() {
+        bottomNavigationView.visibility = View.GONE
     }
 
     // recebe a foto
