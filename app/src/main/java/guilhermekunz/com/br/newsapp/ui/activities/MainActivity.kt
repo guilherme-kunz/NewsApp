@@ -17,6 +17,9 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationBarMenu
+import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 import guilhermekunz.com.br.newsapp.R
 import guilhermekunz.com.br.newsapp.database.ArticleDatabase
 import guilhermekunz.com.br.newsapp.repository.NewsRepository
@@ -43,10 +46,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        finish()
-        startActivity(Intent(this, AuthActivity::class.java))
+        val firebaseAuth = FirebaseAuth.getInstance()
+        firebaseAuth.createUserWithEmailAndPassword("guilhermekunz@gmail.com", "teste123")
 
         setupBottomNav()
+        setupNavDrawer()
 
 
         //Instancia o Repositorio
@@ -78,6 +82,36 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //Controle do Navigation Drawer
+    private fun setupNavDrawer() {
+        val navController = findNavController(R.id.newsNavHostFragment)
+        findViewById<NavigationView>(R.id.navView)
+            .setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener{_, destination, _ ->
+            when(destination.id) {
+                R.id.articleFragment -> showNavDrawer()
+                R.id.breakingNewsFragment -> showNavDrawer()
+                R.id.savedNewsFragment -> showNavDrawer()
+                R.id.searchNewsFragment -> showNavDrawer()
+                else -> hideNavDrawer()
+            }
+        }
+    }
+
+    //Exibe o navigation drawer
+    private fun showNavDrawer() {
+       navView.visibility = View.VISIBLE
+    }
+
+    //Esconde o Navigation Drawer
+    private fun hideNavDrawer() {
+        navView.visibility = View.GONE
+    }
+
+
+
+    //Controle do Bottom Navigation
     private fun setupBottomNav() {
         val navController = findNavController(R.id.newsNavHostFragment)
         findViewById<BottomNavigationView>(R.id.bottomNavigationView)
@@ -94,10 +128,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //Exibe o bottom navigation
     private fun showBottomNav() {
         bottomNavigationView.visibility = View.VISIBLE
     }
 
+    //Esconde o bootom navigation
     private fun hideBottomNav() {
         bottomNavigationView.visibility = View.GONE
     }

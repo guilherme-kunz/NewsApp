@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "664945253805",
+    "project_id": "newsapp-310213",
+    "storage_bucket": "newsapp-310213.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:664945253805:android:3addd5d8b4a5d3c4b61524",
+        "android_client_info": {
+          "package_name": "guilhermekunz.com.br.newsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "664945253805-e9ckf0v8ui4ck0j3almjltpqpuqa097l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCNSh7d-5plmJ8RyWQPpNEzVwRYh7vwcM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "664945253805-e9ckf0v8ui4ck0j3almjltpqpuqa097l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
