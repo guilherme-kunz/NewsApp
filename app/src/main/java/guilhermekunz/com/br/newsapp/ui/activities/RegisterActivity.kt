@@ -37,7 +37,7 @@ class RegisterActivity : AppCompatActivity() {
 
         //transição para activity login
         textAlreadyHaveAccountLoginNow.setOnClickListener {
-            val intent = Intent(applicationContext, LoginActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
     }
@@ -47,7 +47,7 @@ class RegisterActivity : AppCompatActivity() {
             .addOnCompleteListener() { task ->
                 if (task.isSuccessful) {
                     Log.e("Task Message", "Successful...")
-                    val intent = Intent(applicationContext, MainActivity::class.java)
+                    val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                 } else {
                     Log.e("Task Message", "Failed..." + task.exception)
@@ -60,7 +60,7 @@ class RegisterActivity : AppCompatActivity() {
         val user = auth.currentUser
 
         if (user != null) {
-            val intent = Intent(applicationContext, MainActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
     }

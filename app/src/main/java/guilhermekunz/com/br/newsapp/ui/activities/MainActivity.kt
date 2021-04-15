@@ -35,6 +35,7 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var auth: FirebaseAuth
     lateinit var viewModel: NewsViewModel
     lateinit var toggle: ActionBarDrawerToggle
 
@@ -46,8 +47,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val firebaseAuth = FirebaseAuth.getInstance()
-        firebaseAuth.createUserWithEmailAndPassword("guilhermekunz@gmail.com", "teste123")
+        auth = FirebaseAuth.getInstance()
 
         setupBottomNav()
         setupNavDrawer()
@@ -77,6 +77,7 @@ class MainActivity : AppCompatActivity() {
                     val intent = Intent(this, MapsActivity::class.java)
                     startActivity(intent)
                 }
+                R.id.logout -> logout()
             }
             true
         }
@@ -202,6 +203,12 @@ class MainActivity : AppCompatActivity() {
         var image = File.createTempFile(imageName, ".jpg", storageDir)
         currentPath = image.absolutePath
         return image
+    }
+
+    private fun logout() {
+        auth.signOut()
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
     }
 
 }
