@@ -47,12 +47,4 @@
             android:name="article"
             app:argType="guilhermekunz.com.br.newsapp.models.Article" />
     </fragment>
-    <activity
-        android:id="@+id/loginActivity"
-        android:name="guilhermekunz.com.br.newsapp.ui.activities.LoginActivity"
-        android:label="LoginActivity" />
-    <activity
-        android:id="@+id/registerActivity"
-        android:name="guilhermekunz.com.br.newsapp.ui.activities.RegisterActivity"
-        android:label="RegisterActivity" />
 </navigation>

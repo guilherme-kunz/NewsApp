@@ -1,6 +1,5 @@
 package guilhermekunz.com.br.newsapp.ui.activities
 
-import android.app.Application
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,7 +7,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import guilhermekunz.com.br.newsapp.R
-import guilhermekunz.com.br.newsapp.ui.fragments.BreakingNewsFragment
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity() {
@@ -22,23 +20,24 @@ class RegisterActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         //botão de registrar um usuario
-        registerButton.setOnClickListener {
-            if (emailRegister.text.trim().toString().isNotEmpty() || passwordRegister.text.trim()
+        register_button.setOnClickListener {
+            if (email_register.text.trim().toString().isNotEmpty() || password_register.text.trim()
                     .toString().isNotEmpty()
             ) {
                 createUser(
-                    emailRegister.text.trim().toString(), passwordRegister.text.trim()
+                    email_register.text.trim().toString(), password_register.text.trim()
                         .toString()
                 )
             } else {
-                Toast.makeText(this, "Input Required", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Invalid Email or Password", Toast.LENGTH_LONG).show()
             }
         }
 
         //transição para activity login
-        textAlreadyHaveAccountLoginNow.setOnClickListener {
+        text_login_now.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 
@@ -49,6 +48,7 @@ class RegisterActivity : AppCompatActivity() {
                     Log.e("Task Message", "Successful...")
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
+                    finish()
                 } else {
                     Log.e("Task Message", "Failed..." + task.exception)
                 }
@@ -62,6 +62,7 @@ class RegisterActivity : AppCompatActivity() {
         if (user != null) {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 

@@ -17,37 +17,22 @@
         app:srcCompat="@drawable/newsapp" />
 
     <EditText
-        android:id="@+id/nameRegister"
+        android:id="@+id/email_register"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:ems="10"
-        android:hint="Name Example"
+        android:hint="@string/email_example"
+        android:inputType="textEmailAddress"
         android:paddingLeft="8dp"
-        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <EditText
-        android:id="@+id/emailRegister"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        android:ems="10"
-        android:hint="example@gmail.com"
-        android:inputType="textEmailAddress"
-        android:paddingLeft="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameRegister" />
-
-    <EditText
-        android:id="@+id/passwordRegister"
+        android:id="@+id/password_register"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
@@ -58,10 +43,10 @@
         android:paddingLeft="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailRegister" />
+        app:layout_constraintTop_toBottomOf="@+id/email_register" />
 
     <Button
-        android:id="@+id/registerButton"
+        android:id="@+id/register_button"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
@@ -70,10 +55,10 @@
         android:text="REGISTER"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordRegister" />
+        app:layout_constraintTop_toBottomOf="@+id/password_register" />
 
     <TextView
-        android:id="@+id/textAlreadyHaveAccountLoginNow"
+        android:id="@+id/text_login_now"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -82,18 +67,7 @@
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerButton" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:text="Name"
-        app:layout_constraintBottom_toTopOf="@+id/nameRegister"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/register_button" />
 
     <TextView
         android:id="@+id/textView5"
@@ -102,8 +76,8 @@
         android:layout_marginStart="32dp"
         android:textSize="16sp"
         android:textColor="@color/black"
-        android:text="E-mail"
-        app:layout_constraintBottom_toTopOf="@+id/emailRegister"
+        android:text="@string/email"
+        app:layout_constraintBottom_toTopOf="@+id/email_register"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -113,10 +87,10 @@
         android:layout_marginStart="32dp"
         android:textColor="@color/black"
         android:textSize="16sp"
-        android:text="Password"
-        app:layout_constraintBottom_toTopOf="@+id/passwordRegister"
+        android:text="@string/password"
+        app:layout_constraintBottom_toTopOf="@+id/password_register"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailRegister" />
+        app:layout_constraintTop_toBottomOf="@+id/email_register" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

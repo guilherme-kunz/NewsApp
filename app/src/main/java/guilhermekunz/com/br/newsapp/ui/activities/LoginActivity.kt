@@ -2,7 +2,6 @@ package guilhermekunz.com.br.newsapp.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -20,17 +19,18 @@ class LoginActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         //transição para activity registro
-        textViewDontHaveAccountRegisterNow.setOnClickListener {
+        text_resgister_now.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         //Botão de Login
-        loginButton.setOnClickListener {
-            if (loginEmail.text.trim().toString().isNotEmpty() || loginPassword.text.trim().toString().isNotEmpty()) {
-                signInUser(loginEmail.text.trim().toString(), loginPassword.text.trim().toString())
+        login_button.setOnClickListener {
+            if (login_email.text.trim().toString().isNotEmpty() || login_password.text.trim().toString().isNotEmpty()) {
+                signInUser(login_email.text.trim().toString(), login_password.text.trim().toString())
             } else {
-                Toast.makeText(this, "Input required", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Enter E-mail and Password", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -41,8 +41,9 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
+                    finish()
                 } else {
-                    Toast.makeText(this, "Erro !!"+task.exception, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Error!!"+task.exception, Toast.LENGTH_LONG).show()
                 }
             }
     }
