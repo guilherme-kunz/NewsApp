@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
 import guilhermekunz.com.br.newsapp.R
 import guilhermekunz.com.br.newsapp.adapters.NewsAdapter
 import guilhermekunz.com.br.newsapp.ui.activities.MainActivity
@@ -32,17 +34,21 @@ class SavedNewsFragment : Fragment(R.layout.fragment_saved_news) {
             }
             //transição de fragment
             findNavController().navigate(
-                    R.id.action_savedNewsFragment_to_articleFragment,
-                    bundle
+                R.id.action_savedNewsFragment_to_articleFragment,
+                bundle
             )
         }
 
         //swipe para delete
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
-                ItemTouchHelper.UP or ItemTouchHelper.DOWN,
-                ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
         ) {
-            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
                 return true
             }
 
