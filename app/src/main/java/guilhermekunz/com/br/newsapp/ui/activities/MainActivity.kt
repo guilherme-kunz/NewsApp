@@ -1,11 +1,7 @@
 package guilhermekunz.com.br.newsapp.ui.activities
 
-import android.app.Activity
 import android.content.Intent
-import android.graphics.drawable.BitmapDrawable
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
@@ -16,9 +12,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import guilhermekunz.com.br.newsapp.R
 import guilhermekunz.com.br.newsapp.database.ArticleDatabase
 import guilhermekunz.com.br.newsapp.repository.NewsRepository
@@ -34,9 +36,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var viewModel: NewsViewModel
     lateinit var toggle: ActionBarDrawerToggle
 
-//    var currentPath: String? = null
-//    val TAKE_PICTURE = 1
-//    val SELECT_PICTURE = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         setupBottomNav()
         setupNavDrawer()
 
+        fecthUser()
 
         //Instancia o Repositorio
         val newsRepository = NewsRepository(ArticleDatabase(this))
@@ -68,7 +68,11 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.Camera -> Toast.makeText(applicationContext, "Clicked item", Toast.LENGTH_LONG)
                     .show()
-                R.id.Gallery -> galleryAccess()
+                R.id.Gallery -> Toast.makeText(
+                    applicationContext,
+                    "Clicked item",
+                    Toast.LENGTH_LONG
+                )
                 R.id.maps -> {
                     val intent = Intent(this, MapsActivity::class.java)
                     startActivity(intent)
@@ -85,25 +89,6 @@ class MainActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    //Acessa a Galeria
-    private fun galleryAccess() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, 0)
-    }
-
-    var selectedPhotoUri: Uri? = null
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
-            //proceed and check what selected image was...
-            Log.d("MainActivity", "Photo was selected")
-            selectedPhotoUri = data.data
-            civProfileImage.setImageURI(selectedPhotoUri)
-        }
     }
 
     //Controle do Navigation Drawer
@@ -161,70 +146,30 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.visibility = View.GONE
     }
 
-//    // recebe a foto
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == TAKE_PICTURE && resultCode == Activity.RESULT_OK) {
-//            try {
-//                val file = File(currentPath)
-//                val uri = Uri.fromFile(file)
-//                cviProfileImage.setImageURI(uri)
-//            } catch (e: IOException) {
-//                e.printStackTrace()
-//            }
-//        }
-//        if (requestCode == SELECT_PICTURE && resultCode == Activity.RESULT_OK) {
-//            try {
-//                val uri = data!!.data
-//                cviProfileImage.setImageURI(uri)
-//            } catch (e: IOException) {
-//                e.printStackTrace()
-//            }
-//        }
-//    }
-//
-//    //abre a galeria
-//    private fun dispatchGalleryIntent(){
-//        val intent = Intent()
-//        intent.type = "image/*"
-//        intent.action = Intent.ACTION_GET_CONTENT
-//        startActivityForResult(Intent.createChooser(intent, "Select image"), SELECT_PICTURE)
-//    }
-//
-//    //abre a camera
-//    private fun dispatchCameraIntent() {
-//        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-//        if (intent.resolveActivity(packageManager) != null) {
-//            var photoFile: File? = null
-//            try {
-//                photoFile = createImage()
-//            }catch (e: IOException){
-//                e.printStackTrace()
-//            }
-//            if (photoFile != null) {
-//                var photoUri = FileProvider.getUriForFile(this,
-//                    "guilhermekunz.com.br.newsapp.fileprovider", photoFile)
-//                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-//                startActivityForResult(intent, TAKE_PICTURE)
-//            }
-//        }
-//    }
-//
-//    //cria a imagem
-//    private fun createImage(): File {
-//        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-//        val imageName = "JPEG_"+timeStamp+"_"
-//        var storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-//        var image = File.createTempFile(imageName, ".jpg", storageDir)
-//        currentPath = image.absolutePath
-//        return image
-//    }
-
     //desloga o usuario
     private fun logout() {
         auth.signOut()
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
     }
+
+    private fun fecthUser() {
+        val ref = FirebaseDatabase.getInstance().getReference("/users")
+        ref.addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach{
+                    it.toString()
+                    val user = it.getValue(User::class.java)
+                    tvUserNameHeader.text = user!!.name
+                    Glide.with(this@MainActivity).load(user.profileImageUrl).into(civProfileImageHeader)
+//                    Glide.with(this).load("http://goo.gl/gEgYUd").into(imageView)
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO()
+            }
+        })
+    }
+
 
 }

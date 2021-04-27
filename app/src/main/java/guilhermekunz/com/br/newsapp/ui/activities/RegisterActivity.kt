@@ -1,13 +1,19 @@
 package guilhermekunz.com.br.newsapp.ui.activities
 
+import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 import guilhermekunz.com.br.newsapp.R
 import kotlinx.android.synthetic.main.activity_register.*
+import java.util.*
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -27,9 +33,19 @@ class RegisterActivity : AppCompatActivity() {
             finish()
         }
 
+        civProfileImageRegister.setOnClickListener {
+            galleryAccess()
+        }
+
     }
 
     private fun registerUser() {
+        if (etName.text.toString().isEmpty()){
+            etName.error = "Please enter Name"
+            etName.requestFocus()
+            return
+        }
+
         if (email_register.text.toString().isEmpty()) {
             email_register.error = "Please enter email"
             email_register.requestFocus()
@@ -56,6 +72,7 @@ class RegisterActivity : AppCompatActivity() {
                     user?.sendEmailVerification()
                         ?.addOnCompleteListener { task ->
                             if (task.isSuccessful) {
+                                uploadImageToFirebaseStorage()
                                 startActivity(Intent(this, LoginActivity::class.java))
                                 finish()
                             }
@@ -69,4 +86,56 @@ class RegisterActivity : AppCompatActivity() {
             }
     }
 
+    //Acessa a Galeria
+    private fun galleryAccess() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, 0)
+    }
+
+    var selectedPhotoUri: Uri? = null
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
+            //proceed and check what selected image was...
+            Log.d("RegisterActivity", "Photo was selected")
+            selectedPhotoUri = data.data
+            civProfileImageRegister.setImageURI(selectedPhotoUri)
+        }
+    }
+
+
+    private fun uploadImageToFirebaseStorage() {
+        if (selectedPhotoUri == null) return
+        val filename = UUID.randomUUID().toString()
+        val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
+        ref.putFile(selectedPhotoUri!!)
+            .addOnSuccessListener {
+                Log.d("RegisterActivity", "Successfully uploaded image: ${it.metadata?.path}")
+                ref.downloadUrl.addOnSuccessListener {
+                    Log.d("RegisterActivity", "File Location: $it")
+
+                    saveUserToFirebaseDatabase(it.toString())
+                }
+            }
+            .addOnFailureListener{
+
+            }
+    }
+
+    private fun saveUserToFirebaseDatabase(profileImageUrl: String) {
+        val uid = FirebaseAuth.getInstance().uid ?: ""
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+        val user = User(uid, etName.text.toString(), profileImageUrl)
+        ref.setValue(user)
+            .addOnSuccessListener {
+                Log.d("RegisterActivity", "Finally we saved the user to Firebase Database")
+            }
+    }
 }
+
+class User(val uid: String, val name: String, val profileImageUrl: String) {
+    constructor() : this("", "", "")
+}
+
