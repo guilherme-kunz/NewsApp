@@ -13,6 +13,7 @@ import guilhermekunz.com.br.newsapp.util.NewsApplication
 import guilhermekunz.com.br.newsapp.models.Article
 import guilhermekunz.com.br.newsapp.models.NewsResponse
 import guilhermekunz.com.br.newsapp.repository.NewsRepository
+import guilhermekunz.com.br.newsapp.ui.activities.User
 import guilhermekunz.com.br.newsapp.util.Resource
 import kotlinx.coroutines.launch
 import retrofit2.Response

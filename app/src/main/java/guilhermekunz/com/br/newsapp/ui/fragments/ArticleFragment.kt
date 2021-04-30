@@ -1,5 +1,6 @@
 package guilhermekunz.com.br.newsapp.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.webkit.WebViewClient
@@ -28,9 +29,19 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
         }
 
         //botão para salvar o artigo
-        fab.setOnClickListener {
+        fabFavorite.setOnClickListener {
             viewModel.saveArticle(article)
             Snackbar.make(view, "Article saved successfully", Snackbar.LENGTH_SHORT).show()
+        }
+
+        //botão para compartilhar o artigo
+        fabShare.setOnClickListener {
+            val articleShare = article.url
+            val intent = Intent()
+            intent.action = Intent.ACTION_SEND
+            intent.putExtra(Intent.EXTRA_TEXT, articleShare)
+            intent.type = "text/plain"
+            startActivity(Intent.createChooser(intent, "Share to: "))
         }
     }
 }

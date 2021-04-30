@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        //navegação do menu lateral
         navView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.Camera -> Toast.makeText(applicationContext, "Clicked item", Toast.LENGTH_LONG)
@@ -153,6 +154,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    //carrega dados do usuario
     private fun fecthUser() {
         val ref = FirebaseDatabase.getInstance().getReference("/users")
         ref.addListenerForSingleValueEvent(object: ValueEventListener{
@@ -162,7 +164,6 @@ class MainActivity : AppCompatActivity() {
                     val user = it.getValue(User::class.java)
                     tvUserNameHeader.text = user!!.name
                     Glide.with(this@MainActivity).load(user.profileImageUrl).into(civProfileImageHeader)
-//                    Glide.with(this).load("http://goo.gl/gEgYUd").into(imageView)
                 }
             }
             override fun onCancelled(error: DatabaseError) {
