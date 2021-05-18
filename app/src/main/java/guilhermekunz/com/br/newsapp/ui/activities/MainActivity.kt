@@ -2,7 +2,6 @@ package guilhermekunz.com.br.newsapp.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -12,22 +11,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import guilhermekunz.com.br.newsapp.R
 import guilhermekunz.com.br.newsapp.database.ArticleDatabase
 import guilhermekunz.com.br.newsapp.repository.NewsRepository
 import guilhermekunz.com.br.newsapp.ui.viewmodel.NewsViewModel
 import guilhermekunz.com.br.newsapp.ui.viewmodel.NewsViewModelProviderFactory
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.nav_header.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -46,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         setupBottomNav()
         setupNavDrawer()
 
-        fecthUser()
+//        fecthUser()
 
         //Instancia o Repositorio
         val newsRepository = NewsRepository(ArticleDatabase(this))
@@ -154,23 +146,23 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    //carrega dados do usuario
-    private fun fecthUser() {
-        val ref = FirebaseDatabase.getInstance().getReference("/users")
-        ref.addListenerForSingleValueEvent(object: ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                snapshot.children.forEach{
-                    it.toString()
-                    val user = it.getValue(User::class.java)
-                    tvUserNameHeader.text = user!!.name
-                    Glide.with(this@MainActivity).load(user.profileImageUrl).into(civProfileImageHeader)
-                }
-            }
-            override fun onCancelled(error: DatabaseError) {
-                TODO()
-            }
-        })
-    }
+//    //carrega dados do usuario
+//    private fun fecthUser() {
+//        val ref = FirebaseDatabase.getInstance().getReference("/users")
+//        ref.addListenerForSingleValueEvent(object: ValueEventListener{
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                snapshot.children.forEach{
+//                    it.toString()
+//                    val user = it.getValue(User::class.java)
+//                    tvUserNameHeader.text = user!!.name
+//                    Glide.with(this@MainActivity).load(user.profileImageUrl).into(civProfileImageHeader)
+//                }
+//            }
+//            override fun onCancelled(error: DatabaseError) {
+//                TODO()
+//            }
+//        })
+//    }
 
 
 }

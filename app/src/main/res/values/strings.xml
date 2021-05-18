@@ -16,4 +16,5 @@
     <string name="email">E-mail</string>
     <string name="password">Password</string>
     <string name="enter_mail">Enter your E-mail</string>
+    <string name="sign_in_with_google">Sign in With Google</string>
 </resources>
