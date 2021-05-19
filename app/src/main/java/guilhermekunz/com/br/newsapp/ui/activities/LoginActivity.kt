@@ -9,10 +9,16 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.facebook.AccessToken
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
@@ -24,14 +30,21 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
+    var callbackManager: CallbackManager?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         auth = FirebaseAuth.getInstance()
+        callbackManager = CallbackManager.Factory.create()
 
-        sign_in_button_gogle.setOnClickListener {
-            signIn()
+        sign_in_button_facebook.setReadPermissions("email")
+        sign_in_button_facebook.setOnClickListener {
+            signInFacebook()
+        }
+
+        sign_in_button_google.setOnClickListener {
+            signInGoogle()
         }
 
 
@@ -67,13 +80,46 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    private fun signIn() {
+    private fun signInFacebook() {
+        sign_in_button_facebook.registerCallback(callbackManager, object:FacebookCallback<LoginResult>{
+            override fun onSuccess(result: LoginResult?) {
+                handleFacebookAccessToken(result!!.accessToken)
+            }
+
+            override fun onCancel() {
+
+            }
+
+            override fun onError(error: FacebookException?) {
+
+            }
+
+        })
+    }
+
+    private fun handleFacebookAccessToken(accessToken: AccessToken?) {
+        //Get Credential
+        val credential = FacebookAuthProvider.getCredential(accessToken!!.token)
+        auth!!.signInWithCredential(credential)
+            .addOnFailureListener { e ->
+                Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
+            }
+            .addOnSuccessListener { result ->
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            }
+    }
+
+
+
+    private fun signInGoogle() {
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        callbackManager!!.onActivityResult(requestCode, resultCode, data)
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {

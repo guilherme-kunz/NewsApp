@@ -3,7 +3,6 @@
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="title_activity_maps">Map</string>
-    <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
@@ -17,4 +16,6 @@
     <string name="password">Password</string>
     <string name="enter_mail">Enter your E-mail</string>
     <string name="sign_in_with_google">Sign in With Google</string>
+    <string name="facebook_app_id">610778273657559</string>
+    <string name="fb_login_protocol_scheme">fb610778273657559</string>
 </resources>

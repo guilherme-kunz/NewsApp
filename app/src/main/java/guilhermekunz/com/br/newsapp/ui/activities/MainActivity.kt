@@ -1,7 +1,10 @@
 package guilhermekunz.com.br.newsapp.ui.activities
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Base64
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -20,6 +23,8 @@ import guilhermekunz.com.br.newsapp.repository.NewsRepository
 import guilhermekunz.com.br.newsapp.ui.viewmodel.NewsViewModel
 import guilhermekunz.com.br.newsapp.ui.viewmodel.NewsViewModelProviderFactory
 import kotlinx.android.synthetic.main.activity_main.*
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 
 
 class MainActivity : AppCompatActivity() {
@@ -32,6 +37,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        printKeyHash()
 
         auth = FirebaseAuth.getInstance()
 
@@ -75,6 +82,23 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+    }
+
+    private fun printKeyHash()  {
+       try {
+           val info = packageManager.getPackageInfo("guilhermekunz.com.br.newsapp", PackageManager.GET_SIGNATURES)
+           for (signature in info.signatures) {
+               val md = MessageDigest.getInstance("SHA")
+               md.update(signature.toByteArray())
+               Log.e("KEYHASH", Base64.encodeToString(md.digest(), Base64.DEFAULT))
+           }
+       }
+       catch (e:PackageManager.NameNotFoundException) {
+
+       }
+        catch (e:NoSuchAlgorithmException) {
+
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
